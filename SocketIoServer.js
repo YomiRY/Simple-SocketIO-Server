@@ -18,6 +18,7 @@ var roomId = '1'
 
 // Message Type: {-1: Not a Normal message type, 0: Event Message, 1: Text Message, 2: Image Message, 3: Video Message:, 4: File Message}
 // Event Response Type: {-1: Not a Normal event type, 0: Connected, 1:Create Room, 2: Join Room, 3: Leave Room}
+// Room Type: {-1: Not a normal room, 0: single chat room, 1:multiple chat room}
 
 io.on('connection', (socket) => {
     var token = socket.handshake.query.auth_token;
