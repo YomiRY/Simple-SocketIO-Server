@@ -1,10 +1,12 @@
 const Mongo = require('mongodb');
-const MongoClient = Mongo.MongoClient;
 const Assert = require('assert');
+
+const MongoClient = Mongo.MongoClient;
+const server = 'localhost:27017';
 const user = encodeURIComponent('user1');
 const pwd = encodeURIComponent('user1');
 const authMechanism = 'DEFAULT';
-const url = `mongodb://${user}:${pwd}@localhost:27017/?authMechanism=${authMechanism}&authSource=admin`;
+const url = `mongodb://${user}:${pwd}@${server}/?authMechanism=${authMechanism}&authSource=admin`;
 const client = new MongoClient(url);
 
 client.connect((err) => {
