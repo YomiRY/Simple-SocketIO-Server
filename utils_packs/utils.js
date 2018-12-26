@@ -12,4 +12,9 @@ const uuidv1 = require('uuid/v1');
     return uuidv1();
 }
 
+function removeForwardSlash(str) {
+    return str.replace(/\\/g, '');
+}
+
 module.exports.generateUUID = generateUUID;
+module.exports.removeForwardSlash = removeForwardSlash;
