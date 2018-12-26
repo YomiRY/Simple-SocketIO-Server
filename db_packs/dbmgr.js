@@ -9,7 +9,7 @@ const pwd = encodeURIComponent('user1');
 const authMechanism = 'DEFAULT';
 const url = `mongodb://${user}:${pwd}@${server}/?authMechanism=${authMechanism}&authSource=admin`;
 const chatDB = 'ChatDB';
-const roomInfoCollection = 'RoomInfo';
+const room_info_collection = 'RoomInfo';
 const messageInfoCollection = 'MessageInfo';
 const usernfoCollection = 'RoomInfo';
 
@@ -38,16 +38,24 @@ function connect(callback) {
 function createNewRoomId(callback) {
     let new_room_id = utils.generateUUID();
 
-    mongo_client.db(chatDB).collection(roomInfoCollection).insertOne({ room_id: new_room_id }).then(res => {
+    mongo_client.db(chatDB).collection(room_info_collection).insertOne({ room_id: new_room_id }).then(res => {
         callback(new_room_id)
     }, err => {
         callback(null);
     });
 }
 
+function findSameMemberRoom(room_type, user_info_json_ary_str, callback) {
+    mongo_client.db(chatDB).collection(room_info_collection).findOne({'user_info_list': {$all: JSON.parse(user_info_json_ary_str)}, 'room_type': room_type}).then(res => {
+        console.log();
+    }, err => {
+        console.log();
+    });
+}
+
 function updateRoomInfo(room_info, callback) {
     mongo_client.db(chatDB)
-        .collection(roomInfoCollection)
+        .collection(room_info_collection)
         .updateOne({ "room_id": room_info.room_id }
         , { $set: room_info})
         .then(res => {
@@ -69,6 +77,7 @@ function isConnected() {
     return mongo_client != null;
 }
 
+module.exports.findSameMemberRoom = findSameMemberRoom;
 module.exports.isConnected = isConnected;
 module.exports.connect = connect;
 module.exports.createNewRoomId = createNewRoomId;
