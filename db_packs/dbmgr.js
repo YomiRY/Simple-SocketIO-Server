@@ -20,31 +20,49 @@ let mongo_client = null;
 function connect(callback) {
     client.connect(null).then(db => {
         mongo_client = db;
-        
+
         console.log(mongo_client);
-        if(callback) {
+        if (callback) {
             callback(true);
         }
     }, err => {
         console.log(err);
-        
+
         mongo_client = null;
-        if(callback) {
+        if (callback) {
             callback(true);
         }
     });
 }
 
-function createNewRoomId() {
-    let newRoomId = utils.generateUUID();
+function createNewRoomId(callback) {
+    let new_room_id = utils.generateUUID();
 
-    mongo_client.db(chatDB).collection(roomInfoCollection).insertOne({room_id: newRoomId});
-
-    return newRoomId;
+    mongo_client.db(chatDB).collection(roomInfoCollection).insertOne({ room_id: new_room_id }).then(res => {
+        callback(new_room_id)
+    }, err => {
+        callback(null);
+    });
 }
 
-function updateRoomInfo(room_info) {
-    mongo_client.db(chatDB).collection(roomInfoCollection).updateOne(room_info, {$set:{"room_id":room_info.room_id}});
+function updateRoomInfo(room_info, callback) {
+    mongo_client.db(chatDB)
+        .collection(roomInfoCollection)
+        .updateOne({ "room_id": room_info.room_id }
+        , { $set: room_info})
+        .then(res => {
+            console.log("[LOG:] update room info successfully, result = " + res);
+            if (res.result.ok) {
+                callback(true);
+            } else {
+                console.log("[LOG:] update room info fail, room_info = " + room_info);
+                callback(false);
+            }
+
+        }, err => {
+            console.log("[LOG:] update room info fail, err = " + err);
+            callback(false);
+        });
 }
 
 function isConnected() {
