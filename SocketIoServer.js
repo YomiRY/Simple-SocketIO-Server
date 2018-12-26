@@ -40,23 +40,27 @@ dbmgr.connect((is_connected) => {
                 console.log('[LOG:] ' + token + ' disconnected from ' + room_id);
             });
 
-            socket.on('create-room', (room_type, user_info_list) => {
+            socket.on('create-room', (room_type, user_info_json_ary_str) => {
                 // [TODO:] Check exist room for same members
+                // user_info_list = JSON.parse(user_info_list);
+                dbmgr.findSameMemberRoom(room_type, user_info_json_ary_str);
+                var room_info = {
+                    "room_id": -1,
+                    "room_type": room_type,
+                    "unread_count": 0,
+                    "user_info_list": user_info_json_ary_str,
+                    "last_message_timestamp": -1,
+                    "last_message": ""
+                };
+
                 dbmgr.createNewRoomId((new_room_id) => {
                     if (!new_room_id) {
                         return;
                     }
 
                     room_id = new_room_id;
-                    var room_info = {
-                        "room_id": room_id,
-                        "room_type": room_type,
-                        "unread_count": 0,
-                        "user_info_list": JSON.parse(user_info_list),
-                        "last_message_timestamp": -1,
-                        "last_message": ""
-                    };
-
+                    room_info.room_id = new_room_id;
+0
                     //[TODO:] Need to sync room member list
                     dbmgr.updateRoomInfo(room_info, (is_update_roominfo_success) => {
                         if (!is_update_roominfo_success) {
@@ -68,20 +72,21 @@ dbmgr.connect((is_connected) => {
                 });
             });
 
-            socket.on('join-room', (room_id, userInfoJsonStr) => {
+            socket.on('join-room', (room_id, user_info_json_str) => {
                 socket.join(room_id, () => {
                     let rooms = Object.values(socket.rooms);
                     let currentTimeMillions = new Date().getTime;
-                    let userInfo = JSON.parse(userInfoJsonStr);
+                    let userInfo = JSON.parse(user_info_json_str);
 
                     var eventMsg = {
                         "room_id": room_id,
                         "message_type": 0,
                         "event_response_type": 2,
                         "message_time": currentTimeMillions,
-                        "message": userInfoJsonStr
+                        "message": user_info_json_str
                     }
 
+                    console.log('[LOG:] ' + token + ' join room successfully.');
                     socket.emit('join-room-success', room_id);
                     io.sockets.in(room_id).emit('receive-message', eventMsg);
                 });
@@ -109,6 +114,7 @@ dbmgr.connect((is_connected) => {
                 var msgInfoObj = JSON.parse(msgInfoJsonStr);
                 let room_id = msgInfoObj.room_id;
 
+                console.log('[LOG:] ' + token + ' send message ' + msgInfoJsonStr);
                 io.sockets.in(room_id).emit('receive-message', msgInfoJsonStr);
             })
         });
