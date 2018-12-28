@@ -42,8 +42,7 @@ dbmgr.connect((is_connected) => {
 
             socket.on('create-room', (room_type, user_info_json_ary_str) => {
                 // [TODO:] Check exist room for same members
-                // user_info_list = JSON.parse(user_info_list);
-                dbmgr.findSameMemberRoom(room_type, user_info_json_ary_str);
+                //dbmgr.find_same_member_room(room_type, user_info_json_ary_str);
                 var room_info = {
                     "room_id": -1,
                     "room_type": room_type,
@@ -53,20 +52,20 @@ dbmgr.connect((is_connected) => {
                     "last_message": ""
                 };
 
-                dbmgr.createNewRoomId((new_room_id) => {
+                dbmgr.create_new_room_id((new_room_id) => {
                     if (!new_room_id) {
                         return;
                     }
 
                     room_id = new_room_id;
                     room_info.room_id = new_room_id;
-0
+                    0
                     //[TODO:] Need to sync room member list
-                    dbmgr.updateRoomInfo(room_info, (is_update_roominfo_success) => {
+                    dbmgr.update_room_info(room_info, (is_update_roominfo_success) => {
                         if (!is_update_roominfo_success) {
                             return;
                         }
-                    
+
                         socket.emit('create-room-success', room_info);
                     });
                 });
@@ -118,7 +117,7 @@ dbmgr.connect((is_connected) => {
                 io.sockets.in(room_id).emit('receive-message', msgInfoJsonStr);
             })
         });
-        server.listen(3000, () => {
+        server.listen(8081, () => {
             console.log("[LOG:] Server listening...")
         });
     }
