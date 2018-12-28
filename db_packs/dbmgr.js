@@ -8,10 +8,10 @@ const user = encodeURIComponent('user1');
 const pwd = encodeURIComponent('user1');
 const authMechanism = 'DEFAULT';
 const url = `mongodb://${user}:${pwd}@${server}/?authMechanism=${authMechanism}&authSource=admin`;
-const chatDB = 'ChatDB';
+const chat_db = 'ChatDB';
 const room_info_collection = 'RoomInfo';
-const messageInfoCollection = 'MessageInfo';
-const usernfoCollection = 'RoomInfo';
+const message_info_collection = 'MessageInfo';
+const user_info_connection = 'UserInfo';
 
 const client = new mongo.MongoClient(url);
 let mongo_client = null;
@@ -35,66 +35,89 @@ function connect(callback) {
     });
 }
 
-function createNewRoomId(callback) {
+function create_new_room_id(callback) {
     let new_room_id = utils.generateUUID();
 
-    mongo_client.db(chatDB).collection(room_info_collection).insertOne({ room_id: new_room_id }).then(res => {
+    mongo_client.db(chat_db).collection(room_info_collection).insertOne({ room_id: new_room_id }).then(res => {
         callback(new_room_id)
     }, err => {
         callback(null);
     });
 }
 
-function findSameMemberRoom(room_type, user_info_json_ary_str, callback) {
-    mongo_client.db(chatDB).collection(room_info_collection).findOne({'user_info_list': {$all: JSON.parse(user_info_json_ary_str)}, 'room_type': room_type}).then(res => {
+function find_same_member_room(room_type, user_info_json_ary_str, callback) {
+    mongo_client.db(chat_db).collection(room_info_collection).findOne({ 'user_info_list': { $all: JSON.parse(user_info_json_ary_str) }, 'room_type': room_type }).then(res => {
         console.log();
     }, err => {
         console.log();
     });
 }
 
-function updateRoomInfo(room_info, callback) {
-    mongo_client.db(chatDB)
+function query_user_info(user_info, callback) {
+    mongo_client.db(chat_db).collection(user_info_connection).findOne({ 'user_name': user_info.user_name, 'user_pwd': user_info.user_pwd }).then(res => {
+        callback(true, res);
+    }, err => {
+        callback(false, null);
+    });
+}
+
+function query_user_info_list(callback) {
+    mongo_client.db(chat_db).collection(user_info_connection).find({}).toArray((err, res) => {
+        if(err) {
+            callback(false, null);
+        } else {
+            callback(true, res);
+        }
+    });
+}
+
+function update_user_info(user_info, callback) {
+    mongo_client.db(chat_db).collection(user_info_connection).updateOne({ "user_id": user_info.user_id }, { $set: user_info }).then(res => {
+        callback(true, res);
+    }, err => {
+        callback(false, null);
+    });
+}
+
+function create_user_info(user_info, callback) {
+    user_info.user_id = utils.generateUUID();
+
+    mongo_client.db(chat_db).collection(user_info_connection).save(user_info).then(res => {
+        callback(true, user_info);
+    }, err => {
+        callback(false, null);
+    });
+}
+
+function update_room_info(room_info, callback) {
+    mongo_client.db(chat_db)
         .collection(room_info_collection)
         .updateOne({ "room_id": room_info.room_id }
-        , { $set: room_info})
+            , { $set: room_info })
         .then(res => {
-            console.log("[LOG:] update room info successfully, result = " + res);
             if (res.result.ok) {
                 callback(true);
             } else {
-                console.log("[LOG:] update room info fail, room_info = " + room_info);
                 callback(false);
             }
 
         }, err => {
-            console.log("[LOG:] update room info fail, err = " + err);
             callback(false);
         });
 }
 
-function isConnected() {
+function is_connected() {
     return mongo_client != null;
 }
 
-module.exports.findSameMemberRoom = findSameMemberRoom;
-module.exports.isConnected = isConnected;
+module.exports.find_same_member_room = find_same_member_room;
+module.exports.query_user_info = query_user_info;
+module.exports.update_user_info = update_user_info;
+module.exports.create_user_info = create_user_info;
+module.exports.query_user_info_list = query_user_info_list;
+module.exports.is_connected = is_connected;
 module.exports.connect = connect;
-module.exports.createNewRoomId = createNewRoomId;
-module.exports.updateRoomInfo = updateRoomInfo;
+module.exports.create_new_room_id = create_new_room_id;
+module.exports.update_room_info = update_room_info;
 
-// module.exports.isClosed() = function() {
-//     return mongo_client != null;
-// }
-
-// module.exports.createRoom = function (roomId, members) {
-
-//     if (roomId) {
-
-//     } else {
-//         //[TODO:] roomId is null, but members is not null
-//     }
-
-//     return mongo_client.connect(url);
-// }
 
