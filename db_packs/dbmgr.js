@@ -8,7 +8,8 @@ const user = encodeURIComponent('user1');
 const pwd = encodeURIComponent('user1');
 const authMechanism = 'DEFAULT';
 const url = `mongodb://${user}:${pwd}@${server}/?authMechanism=${authMechanism}&authSource=admin`;
-const chat_db = 'ChatDB';
+const chat_db_name = 'ChatDB';
+var db;
 const room_info_collection = 'RoomInfo';
 const message_info_collection = 'MessageInfo';
 const user_info_connection = 'UserInfo';
@@ -18,8 +19,9 @@ let mongo_client = null;
 
 
 function connect(callback) {
-    client.connect(null).then(db => {
-        mongo_client = db;
+    client.connect(null).then(client => {
+        mongo_client = client;
+        db = mongo_client.db(chat_db_name);
 
         console.log(mongo_client);
         if (callback) {
@@ -38,7 +40,7 @@ function connect(callback) {
 function create_new_room_id(callback) {
     let new_room_id = utils.generateUUID();
 
-    mongo_client.db(chat_db).collection(room_info_collection).insertOne({ room_id: new_room_id }).then(res => {
+    mongo_client.db(chat_db_name).collection(room_info_collection).insertOne({ room_id: new_room_id }).then(res => {
         callback(new_room_id)
     }, err => {
         callback(null);
@@ -46,7 +48,7 @@ function create_new_room_id(callback) {
 }
 
 function find_same_member_room(room_type, user_info_json_ary_str, callback) {
-    mongo_client.db(chat_db).collection(room_info_collection).findOne({ 'user_info_list': { $all: JSON.parse(user_info_json_ary_str) }, 'room_type': room_type }).then(res => {
+    mongo_client.db(chat_db_name).collection(room_info_collection).findOne({ 'user_info_list': { $all: JSON.parse(user_info_json_ary_str) }, 'room_type': room_type }).then(res => {
         console.log();
     }, err => {
         console.log();
@@ -54,7 +56,7 @@ function find_same_member_room(room_type, user_info_json_ary_str, callback) {
 }
 
 function query_user_info(user_info, callback) {
-    mongo_client.db(chat_db).collection(user_info_connection).findOne({ 'user_name': user_info.user_name, 'user_pwd': user_info.user_pwd }).then(res => {
+    mongo_client.db(chat_db_name).collection(user_info_connection).findOne({ 'user_name': user_info.user_name, 'user_pwd': user_info.user_pwd }).then(res => {
         callback(true, res);
     }, err => {
         callback(false, null);
@@ -62,7 +64,7 @@ function query_user_info(user_info, callback) {
 }
 
 function query_user_info_list(callback) {
-    mongo_client.db(chat_db).collection(user_info_connection).find({}).toArray((err, res) => {
+    mongo_client.db(chat_db_name).collection(user_info_connection).find({}).toArray((err, res) => {
         if(err) {
             callback(false, null);
         } else {
@@ -72,7 +74,7 @@ function query_user_info_list(callback) {
 }
 
 function update_user_info(user_info, callback) {
-    mongo_client.db(chat_db).collection(user_info_connection).updateOne({ "user_id": user_info.user_id }, { $set: user_info }).then(res => {
+    mongo_client.db(chat_db_name).collection(user_info_connection).updateOne({ "user_id": user_info.user_id }, { $set: user_info }).then(res => {
         callback(true, res);
     }, err => {
         callback(false, null);
@@ -82,7 +84,7 @@ function update_user_info(user_info, callback) {
 function create_user_info(user_info, callback) {
     user_info.user_id = utils.generateUUID();
 
-    mongo_client.db(chat_db).collection(user_info_connection).save(user_info).then(res => {
+    mongo_client.db(chat_db_name).collection(user_info_connection).save(user_info).then(res => {
         callback(true, user_info);
     }, err => {
         callback(false, null);
@@ -90,7 +92,7 @@ function create_user_info(user_info, callback) {
 }
 
 function update_room_info(room_info, callback) {
-    mongo_client.db(chat_db)
+    mongo_client.db(chat_db_name)
         .collection(room_info_collection)
         .updateOne({ "room_id": room_info.room_id }
             , { $set: room_info })
