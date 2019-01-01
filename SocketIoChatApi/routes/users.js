@@ -12,17 +12,16 @@ if (!dbmgr.is_connected()) {
   });
 }
 
-/* GET users listing. */
 router.post('/sign_up', function (req, res) {
   let user_name = req.body.user_name;
   let user_pwd = req.body.user_pwd;
   var user_info = { 'user_name': user_name, 'user_pwd': user_pwd };
 
-  console.log('[LOG: sign_up] >>> /sign_up');
-  console.log('[LOG: sign_up] /sign_up, user_name = ' + user_name + ' user_pwd = ' + user_pwd);
+  console.log('[LOG:] >>> /sign_up');
+  console.log('[LOG:] /sign_up, user_name = ' + user_name + ' user_pwd = ' + user_pwd);
 
   dbmgr.query_user_info(user_info, (is_success, result) => {
-    console.log("[LOG: sign_up] query_user_info, result = " + result);
+    console.log("[LOG:] /sign_up, query_user_info, result = " + result);
 
     if (is_success) {
       if (result) {
@@ -35,14 +34,14 @@ router.post('/sign_up', function (req, res) {
           }
         });
   
-        console.log('[LOG: sign_up] <<< /sign_up');
+        console.log('[LOG:] <<< /sign_up');
   
         res.end();
       } else {
         dbmgr.create_user_info(user_info, (is_success, result) => {
           if (is_success) {
   
-            console.log("[LOG: query_user_info] create new user, result = " + result);
+            console.log("[LOG:] create new user, result = " + result);
   
             res.status(200).json({
               'status': 200,
@@ -58,7 +57,7 @@ router.post('/sign_up', function (req, res) {
               'message': 'request error'
             });
           }
-          console.log('[LOG: sign_up] <<< /sign_up');
+          console.log('[LOG:] <<< /sign_up');
   
           res.end();
         });
@@ -76,15 +75,15 @@ router.post('/sign_in', function (req, res) {
   let user_name = req.body.user_name;
   let user_pwd = req.body.user_pwd;
 
-  console.log('[LOG: sign_in] >>> /sign_in');
-  console.log('[LOG: sign_in] /sign_in, user_name = ' + user_name + ' user_pwd = ' + user_pwd);
+  console.log('[LOG:] >>> /sign_in');
+  console.log('[LOG:] /sign_in, user_name = ' + user_name + ' user_pwd = ' + user_pwd);
 
   dbmgr.query_user_info({ 'user_name': user_name, 'user_pwd': user_pwd }, (is_success, result) => {
 
     if (is_success) {
       let payload = {};
 
-      console.log("[LOG: sign_in] query_user_info, result = " + result);
+      console.log("[LOG:] /sign_in, query_user_info, result = " + result);
 
       if (result) {
         payload = {
@@ -105,14 +104,15 @@ router.post('/sign_in', function (req, res) {
       });
     }
 
-    console.log('[LOG: sign_in] <<< /sign_in');
+    console.log('[LOG:] <<< /sign_in');
 
     res.end();
   });
 });
 
+/* GET users listing. */
 router.get('/user_info_list', function (req, res) {
-  console.log('[LOG: user_info_list] >>> /user_info_list');
+  console.log('[LOG:] >>> /user_info_list');
 
   dbmgr.query_user_info_list((is_success, result) => {
     if (is_success) {
@@ -121,7 +121,7 @@ router.get('/user_info_list', function (req, res) {
         'payload': result
       });
 
-      console.log('[LOG: sign_in] /user_info_list, user_info_list = ' + result);
+      console.log('[LOG:] /user_info_list, user_info_list = ' + result);
 
     } else {
       res.status(400).json({
@@ -130,7 +130,7 @@ router.get('/user_info_list', function (req, res) {
       });
     }
 
-    console.log('[LOG: user_info_list] <<< /user_info_list');
+    console.log('[LOG:] <<< /user_info_list');
 
   });
 
