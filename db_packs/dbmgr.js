@@ -22,7 +22,6 @@ function connect(callback) {
     client.connect(null).then(client => {
         mongo_client = client;
         db = mongo_client.db(chat_db_name);
-
         console.log(mongo_client);
         if (callback) {
             callback(true);
@@ -32,7 +31,7 @@ function connect(callback) {
 
         mongo_client = null;
         if (callback) {
-            callback(true);
+            callback(false);
         }
     });
 }
@@ -47,25 +46,76 @@ function create_new_room_id(callback) {
     });
 }
 
+function update_room_info(room_info, callback) {
+    mongo_client.db(chat_db_name)
+        .collection(room_info_collection)
+        .updateOne({ "room_id": room_info.room_id }
+            , { $set: room_info })
+        .then(res => {
+            if (res.result.ok) {
+                callback(true);
+            } else {
+                callback(false);
+            }
+
+        }, err => {
+            callback(false);
+        });
+}
+
+function query_room_info(room_id, callback) {
+    mongo_client.db(chat_db_name)
+        .collection(room_info_collection)
+        .find({ "room_id": room_id })
+        .then(res => {
+            if (res.result.ok) {
+                callback(true);
+            } else {
+                callback(false);
+            }
+        }, err => {
+            callback(false);
+        })
+}
+
 function find_same_member_room(room_type, user_info_json_ary_str, callback) {
-    mongo_client.db(chat_db_name).collection(room_info_collection).findOne({ 'user_info_list': { $all: JSON.parse(user_info_json_ary_str) }, 'room_type': room_type }).then(res => {
-        console.log();
-    }, err => {
-        console.log();
-    });
+    mongo_client.db(chat_db_name)
+        .collection(room_info_collection)
+        .findOne({ 'user_info_list': { $all: JSON.parse(user_info_json_ary_str) }, 'room_type': room_type })
+        .then(res => {
+            console.log();
+        }, err => {
+            console.log();
+        });
 }
 
 function query_user_info(user_info, callback) {
-    mongo_client.db(chat_db_name).collection(user_info_connection).findOne({ 'user_name': user_info.user_name, 'user_pwd': user_info.user_pwd }).then(res => {
-        callback(true, res);
-    }, err => {
-        callback(false, null);
-    });
+    let user_id = user_info.user_id;
+
+    if (user_id) {
+        return mongo_client.db(chat_db_name)
+            .collection(user_info_connection)
+            .findOne({ 'user_id': user_info.user_id })
+            .then(res => {
+                callback(true, res);
+            }, err => {
+                callback(false, null);
+            });
+    } else {
+        return mongo_client.db(chat_db_name)
+            .collection(user_info_connection)
+            .findOne({ 'user_name': user_info.user_name, 'user_pwd': user_info.user_pwd })
+            .then(res => {
+                callback(true, res);
+            }, err => {
+                callback(false, null);
+            });
+    }
 }
 
-function query_user_info_list(callback) {
+function query_all_user_info_list(callback) {
     mongo_client.db(chat_db_name).collection(user_info_connection).find({}).toArray((err, res) => {
-        if(err) {
+        if (err) {
             callback(false, null);
         } else {
             callback(true, res);
@@ -91,32 +141,16 @@ function create_user_info(user_info, callback) {
     });
 }
 
-function update_room_info(room_info, callback) {
-    mongo_client.db(chat_db_name)
-        .collection(room_info_collection)
-        .updateOne({ "room_id": room_info.room_id }
-            , { $set: room_info })
-        .then(res => {
-            if (res.result.ok) {
-                callback(true);
-            } else {
-                callback(false);
-            }
-
-        }, err => {
-            callback(false);
-        });
-}
-
 function is_connected() {
     return mongo_client != null;
 }
 
 module.exports.find_same_member_room = find_same_member_room;
 module.exports.query_user_info = query_user_info;
+module.exports.query_all_user_info_list = query_all_user_info_list;
 module.exports.update_user_info = update_user_info;
 module.exports.create_user_info = create_user_info;
-module.exports.query_user_info_list = query_user_info_list;
+module.exports.query_room_info = query_room_info;
 module.exports.is_connected = is_connected;
 module.exports.connect = connect;
 module.exports.create_new_room_id = create_new_room_id;
