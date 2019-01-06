@@ -10,11 +10,14 @@ const app = require('express')();
 const utils = require('./utils_packs/utils');
 const dbmgr = require('./db_packs/dbmgr');
 const options = {
-    key: fs.readFileSync('d:\\NodeJsWorkSpace\\SocketIo\\file.pem'),
-    cert: fs.readFileSync('d:\\NodeJsWorkSpace\\SocketIo\\file.crt')
+    // key: fs.readFileSync('d:\\NodeJsWorkSpace\\SocketIo\\file.pem'),
+    // cert: fs.readFileSync('d:\\NodeJsWorkSpace\\SocketIo\\file.crt')
+    key: fs.readFileSync('./file.pem'),
+    cert: fs.readFileSync('./file.crt')
 };
 const server = require('https').createServer(options, app);
 const io = require('socket.io')(server);
+const socket_map = new Map();
 
 // [TODO:] Time millionseconds need to sync with NTP server
 
@@ -56,10 +59,8 @@ dbmgr.connect((is_connected) => {
                     if (!new_room_id) {
                         return;
                     }
-
-                    room_id = new_room_id;
+                
                     room_info.room_id = new_room_id;
-                    0
                     //[TODO:] Need to sync room member list
                     dbmgr.update_room_info(room_info, (is_update_roominfo_success) => {
                         if (!is_update_roominfo_success) {
@@ -71,11 +72,29 @@ dbmgr.connect((is_connected) => {
                 });
             });
 
-            socket.on('join-room', (room_id, user_info_json_str) => {
-                socket.join(room_id, () => {
-                    let rooms = Object.values(socket.rooms);
+            socket.on('invite_member', (target_room_id, member_info_json_ary_str) => {
+                const member_info_json_ary = JSON.parse(member_info_json_ary_str);
+                
+                if(!member_info_json_ary) {
+                    return;
+                }
+
+                for(var member_info of member_info_json_ary) {
+                    dbmgr.query_user_info(member_info, (is_success, user_info) => {
+                        if(is_success) {
+                            user_info.room_ids.push(target_room_id);
+                            dbmgr.update_user_info(user_info);
+                        }
+                    });                    
+                }
+            });            
+
+            socket.on('join-room', (target_room_id, user_info_json_str) => {
+                socket.join(target_room_id, () => {
+                    room_id = target_room_id;
+                    // let rooms = Object.values(socket.rooms);
                     let currentTimeMillions = new Date().getTime;
-                    let userInfo = JSON.parse(user_info_json_str);
+                    //let userInfo = JSON.parse(user_info_json_str);
 
                     var eventMsg = {
                         "room_id": room_id,
@@ -110,8 +129,7 @@ dbmgr.connect((is_connected) => {
             })
 
             socket.on('send-message', (msgInfoJsonStr) => {
-                var msgInfoObj = JSON.parse(msgInfoJsonStr);
-                let room_id = msgInfoObj.room_id;
+                var msgInfoObj = JSON.parse(msgInfoJsonStr);            
 
                 console.log('[LOG:] ' + token + ' send message ' + msgInfoJsonStr);
                 io.sockets.in(room_id).emit('receive-message', msgInfoJsonStr);
