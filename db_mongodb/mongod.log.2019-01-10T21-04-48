@@ -1,0 +1,100 @@
+2019-01-07T11:10:11.044+0800 I CONTROL  [main] Automatically disabling TLS 1.0, to force-enable TLS 1.0 specify --sslDisabledProtocols 'none'
+2019-01-07T11:10:11.058+0800 I CONTROL  [initandlisten] MongoDB starting : pid=12628 port=27017 dbpath=/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb 64-bit host=yomideMacBook-Pro.local
+2019-01-07T11:10:11.058+0800 I CONTROL  [initandlisten] db version v4.0.5
+2019-01-07T11:10:11.058+0800 I CONTROL  [initandlisten] git version: 3739429dd92b92d1b0ab120911a23d50bf03c412
+2019-01-07T11:10:11.058+0800 I CONTROL  [initandlisten] allocator: system
+2019-01-07T11:10:11.058+0800 I CONTROL  [initandlisten] modules: none
+2019-01-07T11:10:11.058+0800 I CONTROL  [initandlisten] build environment:
+2019-01-07T11:10:11.058+0800 I CONTROL  [initandlisten]     distarch: x86_64
+2019-01-07T11:10:11.058+0800 I CONTROL  [initandlisten]     target_arch: x86_64
+2019-01-07T11:10:11.058+0800 I CONTROL  [initandlisten] options: { storage: { dbPath: "/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb" }, systemLog: { destination: "file", path: "/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb/mongod.log" } }
+2019-01-07T11:10:11.059+0800 I STORAGE  [initandlisten] Detected data files in /Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb created by the 'wiredTiger' storage engine, so setting the active storage engine to 'wiredTiger'.
+2019-01-07T11:10:11.059+0800 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=7680M,session_max=20000,eviction=(threads_min=4,threads_max=4),config_base=false,statistics=(fast),log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),statistics_log=(wait=0),verbose=(recovery_progress),
+2019-01-07T11:10:11.724+0800 I STORAGE  [initandlisten] WiredTiger message [1546830611:724614][12628:0x1151415c0], txn-recover: Main recovery loop: starting at 13/8448 to 14/256
+2019-01-07T11:10:11.805+0800 I STORAGE  [initandlisten] WiredTiger message [1546830611:805632][12628:0x1151415c0], txn-recover: Recovering log 13 through 14
+2019-01-07T11:10:11.857+0800 I STORAGE  [initandlisten] WiredTiger message [1546830611:857506][12628:0x1151415c0], txn-recover: Recovering log 14 through 14
+2019-01-07T11:10:11.898+0800 I STORAGE  [initandlisten] WiredTiger message [1546830611:898576][12628:0x1151415c0], txn-recover: Set global recovery timestamp: 0
+2019-01-07T11:10:11.951+0800 I RECOVERY [initandlisten] WiredTiger recoveryTimestamp. Ts: Timestamp(0, 0)
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] 
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] 
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] ** WARNING: This server is bound to localhost.
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] **          Remote systems will be unable to connect to this server. 
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] **          Start the server with --bind_ip <address> to specify which IP 
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] **          addresses it should serve responses from, or with --bind_ip_all to
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] **          bind to all interfaces. If this behavior is desired, start the
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] **          server with --bind_ip 127.0.0.1 to disable this warning.
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] 
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] 
+2019-01-07T11:10:12.055+0800 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2019-01-07T11:10:12.148+0800 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb/diagnostic.data'
+2019-01-07T11:10:12.151+0800 I NETWORK  [initandlisten] waiting for connections on port 27017
+2019-01-07T11:11:07.835+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:57079 #1 (1 connection now open)
+2019-01-07T11:11:07.840+0800 I NETWORK  [conn1] received client metadata from 127.0.0.1:57079 conn1: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-07T11:11:07.867+0800 I ACCESS   [conn1] Successfully authenticated as principal user1 on admin
+2019-01-07T11:11:10.950+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:57080 #2 (2 connections now open)
+2019-01-07T11:11:10.950+0800 I NETWORK  [conn2] received client metadata from 127.0.0.1:57080 conn2: { application: { name: "robo3t" }, driver: { name: "MongoDB Internal Client", version: "3.4.3-10-g865d2fb" }, os: { type: "Darwin", name: "Mac OS X", architecture: "x86_64", version: "18.2.0" } }
+2019-01-07T11:11:56.391+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:57082 #3 (3 connections now open)
+2019-01-07T11:11:56.391+0800 I NETWORK  [conn3] received client metadata from 127.0.0.1:57082 conn3: { application: { name: "robo3t" }, driver: { name: "MongoDB Internal Client", version: "3.4.3-10-g865d2fb" }, os: { type: "Darwin", name: "Mac OS X", architecture: "x86_64", version: "18.2.0" } }
+2019-01-07T11:12:06.393+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:57083 #4 (4 connections now open)
+2019-01-07T11:12:06.393+0800 I NETWORK  [conn4] received client metadata from 127.0.0.1:57083 conn4: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "3.4.3-10-g865d2fb" }, os: { type: "Darwin", name: "Mac OS X", architecture: "x86_64", version: "18.2.0" } }
+2019-01-07T11:12:19.392+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:57084 #5 (5 connections now open)
+2019-01-07T11:12:19.392+0800 I NETWORK  [conn5] received client metadata from 127.0.0.1:57084 conn5: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "3.4.3-10-g865d2fb" }, os: { type: "Darwin", name: "Mac OS X", architecture: "x86_64", version: "18.2.0" } }
+2019-01-07T11:21:35.790+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:57126 #6 (6 connections now open)
+2019-01-07T11:21:35.790+0800 I NETWORK  [conn6] received client metadata from 127.0.0.1:57126 conn6: { application: { name: "robo3t" }, driver: { name: "MongoDB Internal Client", version: "3.4.3-10-g865d2fb" }, os: { type: "Darwin", name: "Mac OS X", architecture: "x86_64", version: "18.2.0" } }
+2019-01-07T11:21:35.824+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:57127 #7 (7 connections now open)
+2019-01-07T11:21:35.825+0800 I NETWORK  [conn7] received client metadata from 127.0.0.1:57127 conn7: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "3.4.3-10-g865d2fb" }, os: { type: "Darwin", name: "Mac OS X", architecture: "x86_64", version: "18.2.0" } }
+2019-01-07T11:21:38.939+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:57128 #8 (8 connections now open)
+2019-01-07T11:21:38.939+0800 I NETWORK  [conn8] received client metadata from 127.0.0.1:57128 conn8: { application: { name: "robo3t" }, driver: { name: "MongoDB Internal Client", version: "3.4.3-10-g865d2fb" }, os: { type: "Darwin", name: "Mac OS X", architecture: "x86_64", version: "18.2.0" } }
+2019-01-07T11:21:38.975+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:57129 #9 (9 connections now open)
+2019-01-07T11:21:38.976+0800 I NETWORK  [conn9] received client metadata from 127.0.0.1:57129 conn9: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "3.4.3-10-g865d2fb" }, os: { type: "Darwin", name: "Mac OS X", architecture: "x86_64", version: "18.2.0" } }
+2019-01-09T17:39:34.668+0800 I NETWORK  [conn1] end connection 127.0.0.1:57079 (8 connections now open)
+2019-01-09T17:39:58.156+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:52427 #10 (9 connections now open)
+2019-01-09T17:39:58.161+0800 I NETWORK  [conn10] received client metadata from 127.0.0.1:52427 conn10: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-09T17:39:58.190+0800 I ACCESS   [conn10] Successfully authenticated as principal user1 on admin
+2019-01-10T16:29:50.768+0800 I NETWORK  [conn10] end connection 127.0.0.1:52427 (8 connections now open)
+2019-01-10T16:30:11.597+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:54991 #11 (9 connections now open)
+2019-01-10T16:30:11.602+0800 I NETWORK  [conn11] received client metadata from 127.0.0.1:54991 conn11: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-10T16:30:11.636+0800 I ACCESS   [conn11] Successfully authenticated as principal user1 on admin
+2019-01-10T16:51:46.586+0800 I NETWORK  [conn11] end connection 127.0.0.1:54991 (8 connections now open)
+2019-01-10T16:51:48.991+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:55746 #12 (9 connections now open)
+2019-01-10T16:51:48.997+0800 I NETWORK  [conn12] received client metadata from 127.0.0.1:55746 conn12: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-10T16:51:49.025+0800 I ACCESS   [conn12] Successfully authenticated as principal user1 on admin
+2019-01-10T18:44:42.994+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:59862 #13 (10 connections now open)
+2019-01-10T18:44:42.999+0800 I NETWORK  [conn13] received client metadata from 127.0.0.1:59862 conn13: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-10T18:44:43.026+0800 I ACCESS   [conn13] Successfully authenticated as principal user1 on admin
+2019-01-10T18:44:50.543+0800 I NETWORK  [conn13] end connection 127.0.0.1:59862 (9 connections now open)
+2019-01-10T18:44:54.231+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:59870 #14 (10 connections now open)
+2019-01-10T18:44:54.236+0800 I NETWORK  [conn14] received client metadata from 127.0.0.1:59870 conn14: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-10T18:44:54.263+0800 I ACCESS   [conn14] Successfully authenticated as principal user1 on admin
+2019-01-10T18:45:10.948+0800 I NETWORK  [conn14] end connection 127.0.0.1:59870 (9 connections now open)
+2019-01-10T18:45:14.138+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:59879 #15 (10 connections now open)
+2019-01-10T18:45:14.142+0800 I NETWORK  [conn15] received client metadata from 127.0.0.1:59879 conn15: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-10T18:45:14.169+0800 I ACCESS   [conn15] Successfully authenticated as principal user1 on admin
+2019-01-10T18:45:33.268+0800 I NETWORK  [conn15] end connection 127.0.0.1:59879 (9 connections now open)
+2019-01-11T03:22:02.410+0800 I COMMAND  [PeriodicTaskRunner] task: DBConnectionPool-cleaner took: 101ms
+2019-01-11T05:00:00.849+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:51974 #16 (10 connections now open)
+2019-01-11T05:00:00.854+0800 I NETWORK  [conn16] received client metadata from 127.0.0.1:51974 conn16: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-11T05:00:00.885+0800 I ACCESS   [conn16] Successfully authenticated as principal user1 on admin
+2019-01-11T05:00:05.364+0800 I NETWORK  [conn16] end connection 127.0.0.1:51974 (9 connections now open)
+2019-01-11T05:00:07.568+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:51984 #17 (10 connections now open)
+2019-01-11T05:00:07.574+0800 I NETWORK  [conn17] received client metadata from 127.0.0.1:51984 conn17: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-11T05:00:07.602+0800 I ACCESS   [conn17] Successfully authenticated as principal user1 on admin
+2019-01-11T05:01:02.342+0800 I NETWORK  [conn12] end connection 127.0.0.1:55746 (9 connections now open)
+2019-01-11T05:01:04.571+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:52017 #18 (10 connections now open)
+2019-01-11T05:01:04.575+0800 I NETWORK  [conn18] received client metadata from 127.0.0.1:52017 conn18: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-11T05:01:04.604+0800 I ACCESS   [conn18] Successfully authenticated as principal user1 on admin
+2019-01-11T05:04:22.723+0800 I NETWORK  [conn18] end connection 127.0.0.1:52017 (9 connections now open)
+2019-01-11T05:04:26.385+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:52175 #19 (10 connections now open)
+2019-01-11T05:04:26.390+0800 I NETWORK  [conn19] received client metadata from 127.0.0.1:52175 conn19: { driver: { name: "nodejs", version: "3.1.10" }, os: { type: "Darwin", name: "darwin", architecture: "x64", version: "18.2.0" }, platform: "Node.js v8.11.3, LE, mongodb-core: 3.1.9" }
+2019-01-11T05:04:26.419+0800 I ACCESS   [conn19] Successfully authenticated as principal user1 on admin
+2019-01-11T05:04:55.198+0800 I CONTROL  [signalProcessingThread] got signal 15 (Terminated: 15), will terminate after current cmd ends
+2019-01-11T05:04:55.199+0800 I NETWORK  [signalProcessingThread] shutdown: going to close listening sockets...
+2019-01-11T05:04:55.199+0800 I NETWORK  [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2019-01-11T05:04:55.199+0800 I CONTROL  [signalProcessingThread] Shutting down free monitoring
+2019-01-11T05:04:55.199+0800 I FTDC     [signalProcessingThread] Shutting down full-time diagnostic data capture
+2019-01-11T05:04:55.202+0800 I STORAGE  [signalProcessingThread] WiredTigerKVEngine shutting down
+2019-01-11T05:04:55.315+0800 I STORAGE  [signalProcessingThread] shutdown: removing fs lock...
+2019-01-11T05:04:55.317+0800 I CONTROL  [signalProcessingThread] now exiting
+2019-01-11T05:04:55.317+0800 I CONTROL  [signalProcessingThread] shutting down with code:0
