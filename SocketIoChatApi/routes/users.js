@@ -34,7 +34,6 @@ router.post('/sign_up', function (req, res) {
             'room_ids': result.room_ids
           }
         });
-
         console.log('[LOG:] <<< /sign_up');
       } else {
         dbmgr.create_user_info(user_info, (is_success, result) => {
@@ -110,9 +109,13 @@ router.get('/user_info_list', function (req, res) {
 
   dbmgr.query_all_user_info_list((is_success, result) => {
     if (is_success) {
+      let payload = {
+        "user_info_list":result
+      }
+
       res.status(200).json({
         'status': 200,
-        'payload': result
+        'payload': payload
       });
 
       console.log('[LOG:] /user_info_list, user_info_list = ' + result);
