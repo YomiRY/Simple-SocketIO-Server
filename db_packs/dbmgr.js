@@ -52,13 +52,20 @@ function update_room_info(room_info, callback) {
         .updateOne({ "room_id": room_info.room_id }
             , { $set: room_info })
         .then(res => {
+            if (!callback) {
+                return;
+            }
+
             if (res.result.ok) {
                 callback(true);
             } else {
                 callback(false);
             }
-
         }, err => {
+            if (!callback) {
+                return;
+            }
+            
             callback(false);
         });
 }
@@ -66,15 +73,15 @@ function update_room_info(room_info, callback) {
 function query_room_info(room_id, callback) {
     mongo_client.db(chat_db_name)
         .collection(room_info_collection)
-        .find({ "room_id": room_id })
+        .findOne({ "room_id": room_id })
         .then(res => {
-            if (res.result.ok) {
-                callback(true);
+            if (res) {
+                callback(true, res);
             } else {
-                callback(false);
+                callback(false, null);
             }
         }, err => {
-            callback(false);
+            callback(false, null);
         })
 }
 
@@ -125,8 +132,14 @@ function query_all_user_info_list(callback) {
 
 function update_user_info(user_info, callback) {
     mongo_client.db(chat_db_name).collection(user_info_connection).updateOne({ "user_id": user_info.user_id }, { $set: user_info }).then(res => {
+        if (!callback) {
+            return;
+        }
         callback(true, res);
     }, err => {
+        if (!callback) {
+            return;
+        }
         callback(false, null);
     });
 }
@@ -151,9 +164,7 @@ module.exports.query_all_user_info_list = query_all_user_info_list;
 module.exports.update_user_info = update_user_info;
 module.exports.create_user_info = create_user_info;
 module.exports.query_room_info = query_room_info;
+module.exports.update_room_info = update_room_info;
 module.exports.is_connected = is_connected;
 module.exports.connect = connect;
 module.exports.create_new_room_id = create_new_room_id;
-module.exports.update_room_info = update_room_info;
-
-
