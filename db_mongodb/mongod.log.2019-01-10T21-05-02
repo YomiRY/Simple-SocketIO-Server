@@ -1,0 +1,13 @@
+2019-01-11T05:04:48.778+0800 I CONTROL  [main] Automatically disabling TLS 1.0, to force-enable TLS 1.0 specify --sslDisabledProtocols 'none'
+2019-01-11T05:04:48.811+0800 I CONTROL  [initandlisten] MongoDB starting : pid=42709 port=27017 dbpath=/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb 64-bit host=yomideMacBook-Pro.local
+2019-01-11T05:04:48.811+0800 I CONTROL  [initandlisten] db version v4.0.5
+2019-01-11T05:04:48.811+0800 I CONTROL  [initandlisten] git version: 3739429dd92b92d1b0ab120911a23d50bf03c412
+2019-01-11T05:04:48.811+0800 I CONTROL  [initandlisten] allocator: system
+2019-01-11T05:04:48.811+0800 I CONTROL  [initandlisten] modules: none
+2019-01-11T05:04:48.811+0800 I CONTROL  [initandlisten] build environment:
+2019-01-11T05:04:48.811+0800 I CONTROL  [initandlisten]     distarch: x86_64
+2019-01-11T05:04:48.811+0800 I CONTROL  [initandlisten]     target_arch: x86_64
+2019-01-11T05:04:48.811+0800 I CONTROL  [initandlisten] options: { storage: { dbPath: "/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb" }, systemLog: { destination: "file", path: "/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb/mongod.log" } }
+2019-01-11T05:04:48.813+0800 E STORAGE  [initandlisten] Failed to set up listener: SocketException: Address already in use
+2019-01-11T05:04:48.814+0800 I CONTROL  [initandlisten] now exiting
+2019-01-11T05:04:48.814+0800 I CONTROL  [initandlisten] shutting down with code:48

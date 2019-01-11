@@ -1,0 +1,38 @@
+2019-01-06T21:45:48.274+0800 I CONTROL  [main] Automatically disabling TLS 1.0, to force-enable TLS 1.0 specify --sslDisabledProtocols 'none'
+2019-01-06T21:45:48.322+0800 I CONTROL  [initandlisten] MongoDB starting : pid=2960 port=27017 dbpath=/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb 64-bit host=yomideMacBook-Pro.local
+2019-01-06T21:45:48.322+0800 I CONTROL  [initandlisten] db version v4.0.5
+2019-01-06T21:45:48.322+0800 I CONTROL  [initandlisten] git version: 3739429dd92b92d1b0ab120911a23d50bf03c412
+2019-01-06T21:45:48.322+0800 I CONTROL  [initandlisten] allocator: system
+2019-01-06T21:45:48.322+0800 I CONTROL  [initandlisten] modules: none
+2019-01-06T21:45:48.322+0800 I CONTROL  [initandlisten] build environment:
+2019-01-06T21:45:48.322+0800 I CONTROL  [initandlisten]     distarch: x86_64
+2019-01-06T21:45:48.322+0800 I CONTROL  [initandlisten]     target_arch: x86_64
+2019-01-06T21:45:48.322+0800 I CONTROL  [initandlisten] options: { storage: { dbPath: "/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb" }, systemLog: { destination: "file", path: "/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb/mongod.log" } }
+2019-01-06T21:45:48.324+0800 W STORAGE  [initandlisten] Detected unclean shutdown - /Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb/mongod.lock is not empty.
+2019-01-06T21:45:48.324+0800 I STORAGE  [initandlisten] Detected data files in /Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb created by the 'wiredTiger' storage engine, so setting the active storage engine to 'wiredTiger'.
+2019-01-06T21:45:48.325+0800 W STORAGE  [initandlisten] Recovering data from the last clean checkpoint.
+2019-01-06T21:45:48.325+0800 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=7680M,session_max=20000,eviction=(threads_min=4,threads_max=4),config_base=false,statistics=(fast),log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),statistics_log=(wait=0),verbose=(recovery_progress),
+2019-01-06T21:45:49.019+0800 I STORAGE  [initandlisten] WiredTiger message [1546782349:19060][2960:0x120d4e5c0], txn-recover: Main recovery loop: starting at 10/348672 to 11/256
+2019-01-06T21:45:49.019+0800 I STORAGE  [initandlisten] WiredTiger message [1546782349:19955][2960:0x120d4e5c0], txn-recover: Recovering log 10 through 11
+2019-01-06T21:45:49.070+0800 I STORAGE  [initandlisten] WiredTiger message [1546782349:70805][2960:0x120d4e5c0], txn-recover: Recovering log 11 through 11
+2019-01-06T21:45:49.111+0800 I STORAGE  [initandlisten] WiredTiger message [1546782349:111504][2960:0x120d4e5c0], txn-recover: Set global recovery timestamp: 0
+2019-01-06T21:45:49.174+0800 I RECOVERY [initandlisten] WiredTiger recoveryTimestamp. Ts: Timestamp(0, 0)
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] 
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] 
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] ** WARNING: This server is bound to localhost.
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] **          Remote systems will be unable to connect to this server. 
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] **          Start the server with --bind_ip <address> to specify which IP 
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] **          addresses it should serve responses from, or with --bind_ip_all to
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] **          bind to all interfaces. If this behavior is desired, start the
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] **          server with --bind_ip 127.0.0.1 to disable this warning.
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] 
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] 
+2019-01-06T21:45:49.259+0800 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2019-01-06T21:45:49.354+0800 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/Users/yomi/NodeJS/Simple-SocketIO-Server/db_mongodb/diagnostic.data'
+2019-01-06T21:45:49.358+0800 I NETWORK  [initandlisten] waiting for connections on port 27017
+2019-01-06T21:45:50.029+0800 I FTDC     [ftdc] Unclean full-time diagnostic data capture shutdown detected, found interim file, some metrics may have been lost. OK
+2019-01-06T21:46:02.765+0800 I NETWORK  [listener] connection accepted from 127.0.0.1:54087 #1 (1 connection now open)
+2019-01-06T21:46:02.767+0800 I NETWORK  [conn1] received client metadata from 127.0.0.1:54087 conn1: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "4.0.5" }, os: { type: "Darwin", name: "Mac OS X", architecture: "x86_64", version: "18.2.0" } }
+2019-01-06T21:46:04.990+0800 I NETWORK  [conn1] end connection 127.0.0.1:54087 (0 connections now open)
