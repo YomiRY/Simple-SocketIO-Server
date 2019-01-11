@@ -130,9 +130,9 @@ dbmgr.connect((is_connected) => {
                             }
                             io.sockets.in(room_id).emit('receive-message', eventMsg);
                         }
-                    });
-                    console.log('[LOG:] ' + token + ' join room successfully.');
-                    socket.emit('join-room-success', room_id);
+                        socket.emit('join-room-success', room_info);
+                        console.log('[LOG:] ' + token + ' join room successfully.');
+                    });                                        
                 });
             })
 
