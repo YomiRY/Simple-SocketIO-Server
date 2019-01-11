@@ -150,13 +150,14 @@ dbmgr.connect((is_connected) => {
                         user_info.room_ids.splice(index, 1);
                         dbmgr.update_user_info(user_info);
                     }
+                    delete user_info._id;
 
                     var eventMsg = {
                         "room_id": room_id,
                         "message_type": 0,
                         "event_response_type": 3,
                         "message_time": new Date().getTime,
-                        "message": user_info
+                        "message": JSON.stringify(user_info)
                     }
 
                     dbmgr.query_room_info(room_id, (is_query_success, result) => {
