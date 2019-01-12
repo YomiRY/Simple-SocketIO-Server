@@ -150,7 +150,6 @@ dbmgr.connect((is_connected) => {
                         user_info.room_ids.splice(index, 1);
                         dbmgr.update_user_info(user_info);
                     }
-                    delete user_info._id;
 
                     var eventMsg = {
                         "room_id": room_id,
