@@ -9,6 +9,7 @@
 const fs = require('fs');
 const app = require('express')();
 const utils = require('./utils_packs/utils');
+const debug = require('./utils_packs/debug');
 const dbmgr = require('./db_packs/dbmgr');
 const options = {
     // key: fs.readFileSync('d:\\NodeJsWorkSpace\\SocketIo\\file.pem'),
@@ -18,9 +19,10 @@ const options = {
 };
 const server = require('https').createServer(options, app);
 const io = require('socket.io')(server);
+const debug_tag = 'socketio_server.js';
 // [TODO:] Always use same room id temporarily
 var room_id;
-const socket_map = new Map();
+// const socket_map = new Map();
 
 // [TODO:] Time millionseconds need to sync with NTP server
 
@@ -29,19 +31,19 @@ const socket_map = new Map();
 
 // Connect to MongoDB
 dbmgr.connect((is_connected) => {
-    if (!is_connected) {
-        console.log('[LOG:] DB connect fail...');
+    if (!is_connected) {        
+        debug.log(debug_tag, '[LOG:] DB connect fail...');
     } else {
-        console.log('[LOG:] DB connect success...');
+        debug.log(debug_tag, '[LOG:] DB connect success...');
 
         io.on('connection', (socket) => {
             let token = socket.handshake.query.auth_token;
+            
+            debug.log(debug_tag, "[LOG:] " + token + " connected");
+            debug.log(debug_tag, "[LOG:] Auth_Token = " + token);
 
-            console.log("[LOG:] " + token + " connected");
-            console.log("[LOG:] Auth_Token = " + token);
-
-            socket.on('disconnect', () => {
-                console.log('[LOG:] ' + token + ' disconnected from ' + room_id);
+            socket.on('disconnect', () => {                
+                debug.log(debug_tag, '[LOG:] ' + token + ' disconnected from ' + room_id);
             });
 
             socket.on('create-room', (room_type, user_info_json_str) => {
@@ -130,14 +132,14 @@ dbmgr.connect((is_connected) => {
                             }
                             io.sockets.in(room_id).emit('receive-message', eventMsg);
                         }
-                        socket.emit('join-room-success', room_info);
-                        console.log('[LOG:] ' + token + ' join room successfully.');
+                        socket.emit('join-room-success', room_info);                        
+                        debug.log(debug_tag, '[LOG:] ' + token + ' join room successfully.');
                     });                                        
                 });
             })
 
-            socket.on('leave-room', (room_id, user_id) => {
-                console.log('[LOG:] ' + token + ' leave room ' + room_id);
+            socket.on('leave-room', (room_id, user_id) => {                
+                debug.log(debug_tag, '[LOG:] ' + token + ' leave room ' + room_id);
 
                 dbmgr.query_user_info({ "user_id": user_id }, (is_query_success, result) => {
                     if (!is_query_success) {
@@ -179,14 +181,14 @@ dbmgr.connect((is_connected) => {
             })
 
             socket.on('send-message', (msgInfoJsonStr) => {
-                var msgInfoObj = JSON.parse(msgInfoJsonStr);
-
-                console.log('[LOG:] ' + token + ' send message ' + msgInfoJsonStr);
+                //var msgInfoObj = JSON.parse(msgInfoJsonStr);
+                
+                debug.log(debug_tag, '[LOG:] ' + token + ' send message ' + msgInfoJsonStr);
                 io.sockets.in(room_id).emit('receive-message', msgInfoJsonStr);
             })
         });
-        server.listen(8081, () => {
-            console.log("[LOG:] Server listening...")
+        server.listen(8081, () => {            
+            debug.log(debug_tag, '[LOG:] Server listening...');
         });
     }
 });
