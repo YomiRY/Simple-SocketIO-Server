@@ -1,7 +1,8 @@
 const Mongo = require('mongodb');
 const Assert = require('assert');
 const Redis = require('redis');
-
+const debug = require('./utils_packs/debug');
+const debug_tag = 'client_test.js';
 const MongoClient = Mongo.MongoClient;
 const server = 'localhost:27017';
 const db_name = 'Test'
@@ -28,7 +29,7 @@ const mongo_client = new MongoClient(url);
 mongo_client.connect((err, mongo_client) => {
     Assert.equal(err, null)
 
-    console.log("Mongo db connected...");
+    debug.log(debug_tag, "Mongo db connected...")
 
     const db = mongo_client.db(db_name);
     
