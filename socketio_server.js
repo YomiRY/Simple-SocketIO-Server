@@ -7,7 +7,7 @@
 // Room Type: {-1: Not a normal room, 0: single chat room, 1:multiple chat room}
 
 const fs = require('fs');
-const app = require('express')();
+//const app = require('express')();
 const utils = require('./utils_packs/utils');
 const debug = require('./utils_packs/debug');
 const dbmgr = require('./db_packs/dbmgr');
@@ -17,7 +17,8 @@ const options = {
     key: fs.readFileSync('./file.pem'),
     cert: fs.readFileSync('./file.crt')
 };
-const server = require('https').createServer(options, app);
+//const server = require('https').createServer(options, app);
+const server = require('https').createServer(options);
 const io = require('socket.io')(server);
 const debug_tag = 'socketio_server.js';
 // [TODO:] Always use same room id temporarily
