@@ -44,7 +44,7 @@ const sticky_server = sticky(() => {
             io.on('connection', (socket) => {
                 let token = socket.handshake.query.auth_token;
 
-                debug.log(debug_tag, `[LOG:] ${socket.toString()} connected, auth token = ${token}`);
+                debug.log(debug_tag, `[LOG:] ${socket.id} connected, auth token = ${token}`);
 
                 socket.on('disconnect', () => {
                     debug.log(debug_tag, `[LOG:] ${token} disconnected from ${room_id}`);
@@ -133,7 +133,8 @@ const sticky_server = sticky(() => {
                                     user_info.room_ids.push(target_room_id);
                                     dbmgr.update_user_info(user_info);
                                 }
-                                io.sockets.in(room_id).emit('receive-message', eventMsg);
+                                
+                                io.in(room_id).emit('receive-message', eventMsg);
                             }
                             socket.emit('join-room-success', room_info);
                             debug.log(debug_tag, `[LOG:] ${token} join room successfully.`);
@@ -176,7 +177,7 @@ const sticky_server = sticky(() => {
                                 dbmgr.update_room_info(room_info);
                             }
                         });
-                        io.sockets.in(room_id).emit('receive-message', eventMsg);
+                        io.in(room_id).emit('receive-message', eventMsg);
                     })
 
                     socket.leave(room_id);
@@ -185,8 +186,8 @@ const sticky_server = sticky(() => {
                 socket.on('send-message', (msgInfoJsonStr) => {
                     var msgInfoObj = JSON.parse(msgInfoJsonStr);
 
-                    debug.log(debug_tag, `[LOG:] ${token} send message ${msgInfoJsonStr}`);
-                    io.sockets.in(room_id).emit('receive-message', msgInfoJsonStr);
+                    debug.log(debug_tag, `[LOG:] ${token} send message ${msgInfoJsonStr}`); 
+                    io.in(room_id).emit('receive-message', msgInfoJsonStr);
                 })
             });
         }
