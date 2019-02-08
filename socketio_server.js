@@ -13,6 +13,8 @@ const https = require('https');
 const cluster = require('cluster');
 const sticky = require('socketio-sticky-session');
 const dbmgr = require('./db_packs/dbmgr');
+const debug_tag = 'socketio_server';
+const debug = require('./utils_packs/debug');
 const options = {
     // key: fs.readFileSync('d:\\NodeJsWorkSpace\\SocketIo\\file.pem'),
     // cert: fs.readFileSync('d:\\NodeJsWorkSpace\\SocketIo\\file.crt')
@@ -33,20 +35,19 @@ var room_id;
 let cluster_role = cluster.isMaster ? 'Master' : 'Slave';
 
 const sticky_server = sticky(() => {
-       dbmgr.connect((is_connected) => {
+    dbmgr.connect((is_connected) => {
         if (!is_connected) {
-            console.log(`[LOG:] ${cluster_role} DB connect fail...`);
+            debug.log(debug_tag, `[LOG:] ${cluster_role} DB connect fail...`);
         } else {
-            console.log(`[LOG:] ${cluster_role} DB connect success...`);
+            debug.log(debug_tag, `[LOG:] ${cluster_role} DB connect success...`);
 
             io.on('connection', (socket) => {
                 let token = socket.handshake.query.auth_token;
 
-                console.log("[LOG:] " + token + " connected");
-                console.log("[LOG:] Auth_Token = " + token);
+                debug.log(debug_tag, `[LOG:] ${socket.toString()} connected, auth token = ${token}`);
 
                 socket.on('disconnect', () => {
-                    console.log('[LOG:] ' + token + ' disconnected from ' + room_id);
+                    debug.log(debug_tag, `[LOG:] ${token} disconnected from ${room_id}`);
                 });
 
                 socket.on('create-room', (room_type, user_info_json_str) => {
@@ -135,13 +136,13 @@ const sticky_server = sticky(() => {
                                 io.sockets.in(room_id).emit('receive-message', eventMsg);
                             }
                             socket.emit('join-room-success', room_info);
-                            console.log('[LOG:] ' + token + ' join room successfully.');
+                            debug.log(debug_tag, `[LOG:] ${token} join room successfully.`);
                         });
                     });
                 })
 
                 socket.on('leave-room', (room_id, user_id) => {
-                    console.log('[LOG:] ' + token + ' leave room ' + room_id);
+                    debug.log(debug_tag, `[LOG:] ${token} leave room ${room_id}`);
 
                     dbmgr.query_user_info({ "user_id": user_id }, (is_query_success, result) => {
                         if (!is_query_success) {
@@ -184,7 +185,7 @@ const sticky_server = sticky(() => {
                 socket.on('send-message', (msgInfoJsonStr) => {
                     var msgInfoObj = JSON.parse(msgInfoJsonStr);
 
-                    console.log('[LOG:] ' + token + ' send message ' + msgInfoJsonStr);
+                    debug.log(debug_tag, `[LOG:] ${token} send message ${msgInfoJsonStr}`);
                     io.sockets.in(room_id).emit('receive-message', msgInfoJsonStr);
                 })
             });
@@ -192,9 +193,5 @@ const sticky_server = sticky(() => {
     });
     return server;
 }).listen(port, () => {
-    if (cluster.isMaster) {
-        console.log(`[LOG:] ${cluster_role} Server start listening...`)
-    } else {
-        console.log(`[LOG:] ${cluster_role} Server start listening...`)
-    }
+    debug.log(debug_tag, `[LOG:] ${cluster_role} Server start listening...`);
 });
