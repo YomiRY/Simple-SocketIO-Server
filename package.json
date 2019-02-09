@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/YomiRY/Simple-SocketIO-Server#readme",
   "dependencies": {
+    "chance": "^1.0.18",
     "cluster": "^0.7.7",
     "express": "^4.16.4",
     "mongodb": "^3.1.13",
